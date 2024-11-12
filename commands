@@ -1,0 +1,12 @@
+kubectl apply -f examples/nginx-app/base.yaml
+
+kubectl get deployments -l component=velero --namespace=velero
+kubectl get deployments --namespace=nginx-example
+
+velero backup create nginx-backup --selector app=nginx
+
+kubectl delete namespace nginx-example
+
+velero restore create --from-backup nginx-backup
+
+velero restore get
